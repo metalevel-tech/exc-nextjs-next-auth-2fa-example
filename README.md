@@ -13,6 +13,10 @@ Example showing a custom sign-in page using NextAuth.js with Two Factor Authenti
 ![Screenshot 3](./media/screenshot3.png)
 ![Screenshot 4](./media/screenshot4.png)
 
+## See Also
+
+* [How to Implement Two-factor Authentication (2FA) in Node.js](https://codevoweb.com/two-factor-authentication-2fa-in-nodejs/)
+
 ## 🚀 Getting Started
 
 First, run the development server:
