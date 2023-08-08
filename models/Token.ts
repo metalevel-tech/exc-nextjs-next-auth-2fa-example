@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 interface IToken {
   userId: mongoose.Schema.Types.ObjectId;
@@ -6,11 +6,11 @@ interface IToken {
   createdAt: Date;
 }
 const tokenSchema = new mongoose.Schema<IToken>({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'user' },
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "user" },
   token: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now, expires: 300 }, // Exprire in 5 mins
+  createdAt: { type: Date, default: Date.now, expires: 300 }, // Expire in 5 mins
 });
 
 const Token =
-  mongoose.models.Token || mongoose.model<IToken>('Token', tokenSchema);
+  mongoose.models.Token || mongoose.model<IToken>("Token", tokenSchema);
 export default Token;

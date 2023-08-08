@@ -1,16 +1,16 @@
-import { nanoid } from 'nanoid';
-import { NextApiRequest, NextApiResponse } from 'next';
-import Token from '../../models/Token';
-import User from '../../models/User';
-import db from '../../utils/db';
-import { hashPassword } from '../../utils/hash';
-import { transporter } from '../../utils/nodemailer';
+import { nanoid } from "nanoid";
+import { NextApiRequest, NextApiResponse } from "next";
+import Token from "../../models/Token";
+import User from "../../models/User";
+import db from "../../utils/db";
+import { hashPassword } from "../../utils/hash";
+import { transporter } from "../../utils/nodemailer";
 
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const email = req.body;
 
     try {
@@ -20,7 +20,7 @@ export default async function handle(
       const user = await User.findOne({ email: email });
 
       if (!user) {
-        return res.status(422).json({ messge: "User doesn't exists!" });
+        return res.status(422).json({ message: "User doesn't exists!" });
       } else {
         const token = await Token.findOne({ userId: user._id });
 
@@ -44,8 +44,8 @@ export default async function handle(
         await transporter.sendMail({
           from: process.env.EMAIL,
           to: user.email,
-          subject: 'Reset Password',
-          text: 'Reset Password Messsage',
+          subject: "Reset Password",
+          text: "Reset Password Messsage",
           html: ` 
           <div>
              <h1>Follow the following link</h1>
@@ -63,7 +63,7 @@ export default async function handle(
 
     // Success
     res.status(200).json({ success: true });
-  } else if (req.method === 'PUT') {
+  } else if (req.method === "PUT") {
     const { tokenId, password } = req.body;
 
     // Get token from DB
@@ -72,7 +72,7 @@ export default async function handle(
     if (!token) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired password reset token',
+        message: "Invalid or expired password reset token",
       });
     }
 
@@ -91,8 +91,8 @@ export default async function handle(
     await transporter.sendMail({
       from: process.env.EMAIL,
       to: user.email,
-      subject: 'Password reset successufly',
-      html: 'Password is successfuly reset',
+      subject: "Password reset successfully",
+      html: "Password is successfully reset",
     });
 
     // Delete token so it won't be used twice
@@ -104,8 +104,8 @@ export default async function handle(
 
     res
       .status(200)
-      .json({ seccuess: true, message: 'Password is reset successfuly' });
+      .json({ success: true, message: "Password is reset successfully" });
   } else {
-    res.status(400).json({ success: false, message: 'Bad request' });
+    res.status(400).json({ success: false, message: "Bad request" });
   }
 }
